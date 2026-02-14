@@ -1,0 +1,12 @@
+run = "bash start-replit.sh"
+
+[env]
+NODE_ENV = "production"
+OPENCLAW_GATEWAY_TOKEN = "replit-secret-token-123"
+OPENCLAW_GATEWAY_PASSWORD = "replit-password-456"
+
+[nix]
+channel = "stable-22_11"
+
+[deployment]
+run = ["sh", "-c", "node openclaw.mjs gateway --allow-unconfigured --bind lan --port $PORT"]
