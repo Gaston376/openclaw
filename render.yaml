@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: openclaw-gateway
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerCommand: node openclaw.mjs gateway --allow-unconfigured --bind lan --port 18789
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: OPENCLAW_GATEWAY_PORT
+        value: 18789
+      - key: OPENCLAW_GATEWAY_TOKEN
+        generateValue: true
+      - key: OPENCLAW_GATEWAY_PASSWORD
+        generateValue: true
+      - key: PORT
+        value: 18789
+    disk:
+      name: openclaw-data
+      mountPath: /home/node/.openclaw
+      sizeGB: 1
