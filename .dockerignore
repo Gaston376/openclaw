@@ -71,7 +71,7 @@ USER.md
 memory/
 .agent/*.json
 !.agent/workflows/
-local/
+/local/
 
 # Documentation (not needed for runtime)
 docs/
