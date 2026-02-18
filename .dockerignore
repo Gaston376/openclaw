@@ -1,60 +1,83 @@
-.git
-.worktrees
-.bun-cache
-.bun
-.tmp
-**/.tmp
+# Exclude from Docker build context
+node_modules
+**/node_modules/
+.env
+.env.*
+docker-compose.extra.yml
+dist
+coverage
+__pycache__/
+*.pyc
+.tsbuildinfo
+.pnpm-store
+.worktrees/
 .DS_Store
 **/.DS_Store
-*.png
-*.jpg
-*.jpeg
-*.webp
-*.gif
-*.mp4
-*.mov
-*.wav
-*.mp3
-node_modules
-**/node_modules
-.pnpm-store
-**/.pnpm-store
-.turbo
-**/.turbo
-.cache
-**/.cache
-.next
-**/.next
-coverage
-**/coverage
-*.log
-tmp
-**/tmp
+.git
+.github
+.vscode
 
-# build artifacts
-dist
-**/dist
-apps/macos/.build
-apps/ios/build
-**/*.trace
+# Test artifacts
+ui/src/ui/__screenshots__/
+ui/playwright-report/
+ui/test-results/
 
-# large app trees not needed for CLI build
-apps/
-assets/
-Peekaboo/
-Swabble/
+# Android build artifacts
+apps/android/.gradle/
+apps/android/app/build/
+apps/android/.cxx/
+
+# Build artifacts
+*.bun-build
+apps/macos/.build/
+apps/shared/MoltbotKit/.build/
+**/ModuleCache/
+bin/
+apps/macos/.build-local/
+apps/macos/.swiftpm/
+apps/shared/MoltbotKit/.swiftpm/
 Core/
-Users/
+apps/ios/*.xcodeproj/
+apps/ios/*.xcworkspace/
+apps/ios/.swiftpm/
 vendor/
+apps/ios/Clawdbot.xcodeproj/
+apps/macos/.build/**
 
-# Needed for building the Canvas A2UI bundle during Docker image builds.
-# Keep the rest of apps/ and vendor/ excluded to avoid a large build context.
-!apps/shared/
-!apps/shared/OpenClawKit/
-!apps/shared/OpenClawKit/Tools/
-!apps/shared/OpenClawKit/Tools/CanvasA2UI/
-!apps/shared/OpenClawKit/Tools/CanvasA2UI/**
-!vendor/a2ui/
-!vendor/a2ui/renderers/
-!vendor/a2ui/renderers/lit/
-!vendor/a2ui/renderers/lit/**
+# Vendor build artifacts
+vendor/a2ui/renderers/lit/dist/
+src/canvas-host/a2ui/*.bundle.js
+src/canvas-host/a2ui/*.map
+
+# fastlane
+apps/ios/fastlane/README.md
+apps/ios/fastlane/report.xml
+apps/ios/fastlane/Preview.html
+apps/ios/fastlane/screenshots/
+apps/ios/fastlane/test_output/
+apps/ios/fastlane/logs/
+apps/ios/fastlane/.env
+apps/ios/*.ipa
+apps/ios/*.dSYM.zip
+apps/ios/*.mobileprovision
+
+# Local files
+.local/
+docs/.local/
+IDENTITY.md
+USER.md
+.idea
+.serena/
+memory/
+.agent/*.json
+!.agent/workflows/
+local/
+
+# Documentation (not needed for runtime)
+docs/
+*.md
+!README.md
+
+# Backup files
+README.github.md
+Dockerfile.original

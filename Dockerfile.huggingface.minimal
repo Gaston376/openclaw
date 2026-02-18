@@ -1,0 +1,49 @@
+FROM node:22-bookworm
+
+# Install Bun (required for build scripts)
+RUN curl -fsSL https://bun.sh/install | bash
+ENV PATH="/root/.bun/bin:${PATH}"
+
+RUN corepack enable
+
+WORKDIR /app
+
+# Copy everything first
+COPY . .
+
+# Create directories if they don't exist
+RUN mkdir -p ui patches scripts
+
+# Create minimal ui/package.json if it doesn't exist
+RUN if [ ! -f ui/package.json ]; then \
+      echo '{"name":"ui","private":true,"dependencies":{}}' > ui/package.json; \
+    fi
+
+# Install dependencies
+# If pnpm-lock.yaml doesn't exist, install without frozen lockfile
+RUN if [ -f pnpm-lock.yaml ]; then \
+      pnpm install --frozen-lockfile; \
+    else \
+      pnpm install; \
+    fi
+
+# Build the application
+RUN pnpm build
+
+# Build UI
+ENV OPENCLAW_PREFER_PNPM=1
+RUN pnpm ui:build
+
+ENV NODE_ENV=production
+
+# Allow non-root user to write temp files during runtime
+RUN chown -R node:node /app
+
+# Run as non-root user for security
+USER node
+
+# Expose Hugging Face Spaces default port
+EXPOSE 7860
+
+# Start gateway with Hugging Face Spaces configuration
+CMD ["node", "openclaw.mjs", "gateway", "--allow-unconfigured", "--bind", "lan", "--port", "7860"]
