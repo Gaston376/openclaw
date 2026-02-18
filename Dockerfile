@@ -5,6 +5,11 @@ WORKDIR /app
 # Copy everything
 COPY . .
 
+# Debug: Check if the local/ subdirectory files exist
+RUN echo "Checking for local/ subdirectory files..." && \
+    ls -la src/commands/onboard-non-interactive/ && \
+    ls -la src/commands/onboard-non-interactive/local/ || echo "local/ directory not found!"
+
 # Enable corepack for pnpm
 RUN corepack enable
 
