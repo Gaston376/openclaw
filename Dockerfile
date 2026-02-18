@@ -2,25 +2,31 @@ FROM node:22-bookworm
 
 WORKDIR /app
 
-# Copy everything
+# Copy everything from current directory
 COPY . .
-0789776433
+
+# Go to parent directory where the actual source is
+WORKDIR /app/..
+
 # Enable corepack for pnpm
 RUN corepack enable
 
-# Install dependencies (generate lock file if needed)
-RUN pnpm install || npm install
+# Create patches directory if needed
+RUN mkdir -p patches
+
+# Install dependencies
+RUN pnpm install --no-frozen-lockfile
 
 # Build the project
-RUN pnpm build || npm run build
+RUN pnpm build
 
 # Build UI
-RUN pnpm ui:build || npm run ui:build || echo "UI build skipped"
+RUN pnpm ui:build
 
 ENV NODE_ENV=production
 
-# Expose port
-EXPOSE 7860
+# Railway provides PORT env variable
+EXPOSE ${PORT:-8080}
 
 # Start the gateway
-CMD ["node", "openclaw.mjs", "gateway", "--allow-unconfigured", "--bind", "lan", "--port", "7860"]
+CMD node openclaw.mjs gateway --allow-unconfigured --bind lan --port ${PORT:-8080}
