@@ -1,0 +1,33 @@
+FROM node:22-slim
+
+WORKDIR /app
+
+# Copy only what we absolutely need
+COPY package.json pnpm-workspace.yaml ./
+COPY openclaw.mjs ./
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Copy source after installing pnpm
+COPY src ./src
+COPY ui ./ui
+COPY scripts ./scripts
+
+# Create patches directory
+RUN mkdir -p patches
+
+# Install dependencies without frozen lockfile
+RUN pnpm install --no-frozen-lockfile
+
+# Build
+RUN pnpm build
+
+# Build UI
+RUN pnpm ui:build
+
+# Expose port
+EXPOSE 7860
+
+# Start
+CMD ["node", "openclaw.mjs", "gateway", "--allow-unconfigured", "--bind", "lan", "--port", "7860"]

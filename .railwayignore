@@ -1,0 +1,20 @@
+# Exclude from Railway upload
+node_modules/
+.git/
+dist/
+coverage/
+docs/
+apps/android/
+apps/ios/
+apps/macos/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.icns
+*.pdf
+*.md
+!README.md
+**/*.test.ts
+**/*.test.js

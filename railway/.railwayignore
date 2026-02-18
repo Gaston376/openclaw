@@ -1,0 +1,37 @@
+# Exclude from Railway deployment
+node_modules
+.git
+.github
+dist
+coverage
+*.log
+.env
+.env.*
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Binary files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.icns
+*.pdf
+
+# Mobile apps
+apps/android/
+apps/ios/
+apps/macos/
+
+# Test files
+**/*.test.ts
+**/*.test.js
+*.e2e.test.ts
+
+# Build artifacts
+.tsbuildinfo
+.pnpm-store
