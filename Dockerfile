@@ -17,14 +17,14 @@ RUN mkdir -p src/canvas-host/a2ui && \
     echo "placeholder" > src/canvas-host/a2ui/.bundle.hash
 
 # Build the project
-RUN pnpm build || (echo "Build failed, trying without A2UI..." && \
-    pnpm exec tsdown && \
-    pnpm build:plugin-sdk:dts || true && \
-    node --import tsx scripts/write-plugin-sdk-entry-dts.ts || true && \
-    node --import tsx scripts/canvas-a2ui-copy.ts || true && \
-    node --import tsx scripts/copy-hook-metadata.ts || true && \
-    node --import tsx scripts/write-build-info.ts || true && \
-    node --import tsx scripts/write-cli-compat.ts || true)
+RUN set -x && \
+    (pnpm build && echo "Build succeeded") || \
+    (echo "Build failed, trying manual steps..." && \
+     pnpm exec tsdown && \
+     echo "tsdown completed" && \
+     ls -la dist/ && \
+     (test -f dist/entry.js || test -f dist/entry.mjs) && \
+     echo "Entry file created successfully")
 
 # Set environment
 ENV NODE_ENV=production
