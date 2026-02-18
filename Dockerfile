@@ -34,4 +34,4 @@ ENV OPENCLAW_GATEWAY_TOKEN=railway-default-change-me
 EXPOSE ${PORT:-8080}
 
 # Start gateway with built output (use sh to expand PORT variable)
-CMD sh -c "node openclaw.mjs gateway --allow-unconfigured --bind 0.0.0.0 --port ${PORT:-8080}"
+CMD sh -c "echo Starting gateway on port ${PORT:-8080}... && node openclaw.mjs gateway --allow-unconfigured --bind lan --port ${PORT:-8080}"
