@@ -5,6 +5,10 @@ WORKDIR /app
 # Copy everything
 COPY . .
 
+# Debug: Check if local directory exists
+RUN ls -la src/commands/onboard-non-interactive/ && \
+    ls -la src/commands/onboard-non-interactive/local/ || echo "local/ directory missing!"
+
 # Enable corepack for pnpm
 RUN corepack enable
 
