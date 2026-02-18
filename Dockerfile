@@ -5,9 +5,6 @@ WORKDIR /app
 # Copy everything from current directory
 COPY . .
 
-# Go to parent directory where the actual source is
-WORKDIR /app/..
-
 # Enable corepack for pnpm
 RUN corepack enable
 
