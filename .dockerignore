@@ -61,9 +61,9 @@ apps/ios/*.ipa
 apps/ios/*.dSYM.zip
 apps/ios/*.mobileprovision
 
-# Local files
-.local/
-docs/.local/
+# Local files (hidden directories only)
+/.local/
+/docs/.local/
 IDENTITY.md
 USER.md
 .idea

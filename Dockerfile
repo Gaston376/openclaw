@@ -5,9 +5,6 @@ WORKDIR /app
 # Copy everything
 COPY . .
 
-# Explicitly copy the local directory that .dockerignore might exclude
-COPY src/commands/onboard-non-interactive/local/ src/commands/onboard-non-interactive/local/
-
 # Debug: Check if local directory exists
 RUN ls -la src/commands/onboard-non-interactive/ && \
     ls -la src/commands/onboard-non-interactive/local/ || echo "local/ directory missing!"
