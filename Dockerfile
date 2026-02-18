@@ -30,8 +30,15 @@ RUN set -x && \
 ENV NODE_ENV=production
 ENV OPENCLAW_GATEWAY_TOKEN=railway-default-change-me
 
-# Expose port (Railway dynamically assigns PORT)
-EXPOSE 8080
+# Healthcheck (optional but recommended)
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD node -e "fetch('http://localhost:' + (process.env.PORT || 8080) + '/health').catch(() => process.exit(1))"
 
-# Start gateway with built output (use sh to expand PORT variable)
-CMD sh -c "echo Starting gateway on port ${PORT:-8080}... && node openclaw.mjs gateway --allow-unconfigured --bind lan --port ${PORT:-8080}"
+# Start gateway with better port handling
+CMD ["sh", "-c", "\
+PORT_TO_USE=${PORT:-8080} && \
+echo \"Starting gateway on port $PORT_TO_USE...\" && \
+echo \"Environment PORT value: ${PORT}\" && \
+echo \"Using port: $PORT_TO_USE\" && \
+node openclaw.mjs gateway --allow-unconfigured --bind lan --port $PORT_TO_USE \
+"]
