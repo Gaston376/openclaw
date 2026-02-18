@@ -8,13 +8,13 @@ COPY . .
 # Enable corepack for pnpm
 RUN corepack enable
 
-# Install ALL dependencies (including devDependencies for tsx)
-RUN pnpm install --no-frozen-lockfile
+# Install dependencies only (skip build)
+RUN pnpm install --no-frozen-lockfile --prod=false
 
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 
 # Railway provides PORT env variable
 EXPOSE ${PORT:-8080}
 
-# Run directly from TypeScript source using tsx (no build step needed)
+# Run directly from source using tsx (no build needed)
 CMD ["sh", "-c", "node --import tsx openclaw.mjs gateway --allow-unconfigured --bind lan --port ${PORT:-8080}"]
