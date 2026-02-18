@@ -5,10 +5,6 @@ WORKDIR /app
 # Copy everything
 COPY . .
 
-# Debug: Check if local directory exists
-RUN ls -la src/commands/onboard-non-interactive/ && \
-    ls -la src/commands/onboard-non-interactive/local/ || echo "local/ directory missing!"
-
 # Enable corepack for pnpm
 RUN corepack enable
 
@@ -32,11 +28,10 @@ RUN set -x && \
 
 # Set environment
 ENV NODE_ENV=production
-ENV PORT=8080
 ENV OPENCLAW_GATEWAY_TOKEN=railway-default-change-me
 
-# Expose port
-EXPOSE 8080
+# Expose port (Railway will set PORT env var)
+EXPOSE ${PORT:-8080}
 
-# Start gateway with built output
-CMD ["node", "openclaw.mjs", "gateway", "--allow-unconfigured", "--bind", "0.0.0.0", "--port", "8080"]
+# Start gateway with built output (use sh to expand PORT variable)
+CMD sh -c "node openclaw.mjs gateway --allow-unconfigured --bind 0.0.0.0 --port ${PORT:-8080}"
