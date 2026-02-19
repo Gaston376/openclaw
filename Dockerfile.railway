@@ -30,8 +30,8 @@ RUN pnpm build || (echo "Build failed, trying without A2UI..." && \
     node --import tsx scripts/write-build-info.ts || true && \
     node --import tsx scripts/write-cli-compat.ts || true)
 
-# Build UI - install UI dependencies and build
-RUN cd packages/ui && pnpm install && cd ../.. && pnpm ui:build || echo "UI build failed, will build at runtime"
+# Build UI - the ui:build script handles dependency installation automatically
+RUN pnpm ui:build || echo "UI build failed, will build at runtime"
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS=--max-old-space-size=2048
