@@ -40,6 +40,15 @@ RUN cd ui && pnpm install --prod && pnpm build && cd .. && \
      echo "Stub UI created at dist/control-ui/index.html" && \
      ls -la dist/control-ui/)
 
+# Ensure stub UI exists (fallback if previous step failed silently)
+RUN mkdir -p dist/control-ui && \
+    if [ ! -f dist/control-ui/index.html ]; then \
+        echo '<!DOCTYPE html><html><head><title>OpenClaw Gateway</title></head><body><h1>OpenClaw Gateway Running</h1><p>Control UI not available in this deployment. Use messaging channels to interact with the gateway.</p></body></html>' > dist/control-ui/index.html && \
+        echo "Created fallback stub UI"; \
+    fi && \
+    ls -la dist/control-ui/ && \
+    cat dist/control-ui/index.html
+
 ENV NODE_ENV=production
 ENV NODE_OPTIONS=--max-old-space-size=2048
 
