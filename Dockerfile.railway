@@ -30,7 +30,7 @@ RUN pnpm build || (echo "Build failed, trying without A2UI..." && \
     node --import tsx scripts/write-build-info.ts || true && \
     node --import tsx scripts/write-cli-compat.ts || true)
 
-# Build UI - install UI dependencies and build
+# Build UI - install UI dependencies and build (v2)
 RUN cd ui && pnpm install --prod && pnpm build && cd .. && \
     echo "UI build completed successfully" && \
     ls -la dist/control-ui/ || \
