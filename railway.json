@@ -5,7 +5,7 @@
     "dockerfilePath": "Dockerfile.railway"
   },
   "deploy": {
-    "startCommand": "sh -c \"node openclaw.mjs gateway --allow-unconfigured --bind lan --port ${PORT:-8080}\"",
+    "startCommand": "sh -c \"export OPENCLAW_GATEWAY_TOKEN=${OPENCLAW_GATEWAY_TOKEN:-$(openssl rand -hex 32)} && node openclaw.mjs gateway --allow-unconfigured --bind lan --port ${PORT:-8080}\"",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3
   }
