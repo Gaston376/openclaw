@@ -39,4 +39,4 @@ ENV NODE_ENV=production
 EXPOSE ${PORT:-8080}
 
 # Start the gateway (use sh -c to properly expand $PORT environment variable)
-CMD ["sh", "-c", "node openclaw.mjs gateway --allow-unconfigured --bind 0.0.0.0 --port ${PORT:-8080}"]
+CMD ["sh", "-c", "node openclaw.mjs gateway --allow-unconfigured --bind auto --port ${PORT:-8080}"]
