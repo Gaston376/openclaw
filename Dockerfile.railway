@@ -34,6 +34,7 @@ RUN pnpm build || (echo "Build failed, trying without A2UI..." && \
 RUN pnpm ui:build || echo "UI build skipped"
 
 ENV NODE_ENV=production
+ENV NODE_OPTIONS=--max-old-space-size=2048
 
 # Railway provides PORT env variable
 EXPOSE ${PORT:-8080}
