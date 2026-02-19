@@ -33,7 +33,10 @@ RUN pnpm build || (echo "Build failed, trying without A2UI..." && \
 # Build UI - install UI dependencies and build
 RUN cd ui && pnpm install --prod && pnpm build && cd .. && \
     echo "UI build completed successfully" && \
-    ls -la dist/control-ui/ || echo "UI build failed, will build at runtime"
+    ls -la dist/control-ui/ || \
+    (echo "UI build failed, creating stub UI..." && \
+     mkdir -p dist/control-ui && \
+     echo '<!DOCTYPE html><html><head><title>OpenClaw Gateway</title></head><body><h1>OpenClaw Gateway Running</h1><p>Control UI not available in this deployment. Use messaging channels to interact with the gateway.</p></body></html>' > dist/control-ui/index.html)
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS=--max-old-space-size=2048
