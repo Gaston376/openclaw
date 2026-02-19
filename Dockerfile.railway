@@ -46,4 +46,5 @@ EXPOSE ${PORT:-8080}
 
 # Start the gateway (use sh -c to properly expand $PORT environment variable)
 # Use 'lan' binding so the gateway listens on the container's network interface
-CMD ["sh", "-c", "node openclaw.mjs gateway --allow-unconfigured --bind lan --port ${PORT:-8080}"]
+# Generate a random token if not provided
+CMD ["sh", "-c", "export OPENCLAW_GATEWAY_TOKEN=${OPENCLAW_GATEWAY_TOKEN:-$(openssl rand -hex 32)} && node openclaw.mjs gateway --allow-unconfigured --bind lan --port ${PORT:-8080}"]
