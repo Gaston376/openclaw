@@ -38,5 +38,5 @@ ENV NODE_ENV=production
 # Railway provides PORT env variable
 EXPOSE ${PORT:-8080}
 
-# Start the gateway
-CMD ["node", "openclaw.mjs", "gateway", "--allow-unconfigured", "--bind", "lan", "--port", "${PORT:-8080}"]
+# Start the gateway (use shell form to expand $PORT variable)
+CMD node openclaw.mjs gateway --allow-unconfigured --bind lan --port ${PORT:-8080}
