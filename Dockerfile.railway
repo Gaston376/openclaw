@@ -30,13 +30,15 @@ RUN pnpm build || (echo "Build failed, trying without A2UI..." && \
     node --import tsx scripts/write-build-info.ts || true && \
     node --import tsx scripts/write-cli-compat.ts || true)
 
-# Build UI - install UI dependencies and build (v2)
+# Build UI - install UI dependencies and build (v3)
 RUN cd ui && pnpm install --prod && pnpm build && cd .. && \
     echo "UI build completed successfully" && \
     ls -la dist/control-ui/ || \
     (echo "UI build failed, creating stub UI..." && \
      mkdir -p dist/control-ui && \
-     echo '<!DOCTYPE html><html><head><title>OpenClaw Gateway</title></head><body><h1>OpenClaw Gateway Running</h1><p>Control UI not available in this deployment. Use messaging channels to interact with the gateway.</p></body></html>' > dist/control-ui/index.html)
+     echo '<!DOCTYPE html><html><head><title>OpenClaw Gateway</title></head><body><h1>OpenClaw Gateway Running</h1><p>Control UI not available in this deployment. Use messaging channels to interact with the gateway.</p></body></html>' > dist/control-ui/index.html && \
+     echo "Stub UI created at dist/control-ui/index.html" && \
+     ls -la dist/control-ui/)
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS=--max-old-space-size=2048
