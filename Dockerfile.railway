@@ -36,7 +36,7 @@ RUN pnpm ui:build || echo "UI build skipped"
 ENV NODE_ENV=production
 
 # Railway provides PORT env variable
-EXPOSE 8080
+EXPOSE ${PORT:-8080}
 
-# Start the gateway (use shell form to expand $PORT variable at runtime)
-CMD node openclaw.mjs gateway --allow-unconfigured --bind 0.0.0.0 --port $PORT
+# Start the gateway (use sh -c to properly expand $PORT environment variable)
+CMD ["sh", "-c", "node openclaw.mjs gateway --allow-unconfigured --bind 0.0.0.0 --port ${PORT:-8080}"]
